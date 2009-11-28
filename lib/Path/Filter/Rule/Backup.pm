@@ -1,6 +1,6 @@
 use MooseX::Declare;
 
-class Path::Filter::Rule::BackupFiles
+class Path::Filter::Rule::Backup
   with Path::Filter::Rule::Static
   with Path::Filter::Rule::EvaluateViaRegex {
 
