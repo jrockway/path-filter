@@ -6,6 +6,7 @@ use Path::Class;
 
 use Path::Filter::Rule::EditorJunk;
 use Path::Filter::Rule::VersionControl::Git;
+use Path::Filter::Rule::VersionControl::Subversion;
 
 my $ej = Path::Filter::Rule::EditorJunk->get_instance;
 
@@ -29,5 +30,8 @@ ok $git->evaluate(dir('.git', 'refs', 'heads'));
 ok !$git->evaluate(file('.gitignore'));
 ok !$git->evaluate(file('', 'foo', '.gitignore'));
 ok !$git->evaluate(file('', '.gitignore'));
+
+my $svn = Path::Filter::Rule::VersionControl::Subversion->get_instance;
+ok $svn->evaluate(file('','foo','bar','.svn','baz'));
 
 done_testing;
