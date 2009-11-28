@@ -2,12 +2,13 @@ use MooseX::Declare;
 
 class Path::Filter::Rule::Set with Path::Filter::Rule {
     use MooseX::Types::Moose qw(ArrayRef);
-    use Path::Filter::Types qw(Rule);
+    use Path::Filter::Types qw(Rules);
 
     has 'rules' => (
         traits     => ['Array'],
         is         => 'ro',
-        isa        => ArrayRef[Rule],
+        isa        => Rules,
+        coerce     => 1,
         required   => 1,
         auto_deref => 1,
         default    => sub { [] },
@@ -19,8 +20,6 @@ class Path::Filter::Rule::Set with Path::Filter::Rule {
     method evaluate($file) {
         my $filtered = 0;
         for my $filter ($self->rules) {
-            $filter = $filter->get_instance
-              if !blessed $filter && $filter->can('does') && $filter->does('Path::Filter::Rule::Static');
             $filtered ||= $filter->evaluate( $file );
             return 1 if $filtered; # short circuit
         }
