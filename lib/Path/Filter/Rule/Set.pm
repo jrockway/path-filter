@@ -19,6 +19,8 @@ class Path::Filter::Rule::Set with Path::Filter::Rule {
     method evaluate($file) {
         my $filtered = 0;
         for my $filter ($self->rules) {
+            $filter = $filter->get_instance
+              if !blessed $filter && $filter->can('does') && $filter->does('Path::Filter::Rule::Static');
             $filtered ||= $filter->evaluate( $file );
             return 1 if $filtered; # short circuit
         }

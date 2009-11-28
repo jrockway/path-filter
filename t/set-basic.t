@@ -4,6 +4,7 @@ use Test::More;
 
 use Path::Filter::Rule::Glob;
 use Path::Filter::Rule::Set;
+use Path::Filter::Rule::BackupFiles;
 use Path::Class;
 
 my $txt = Path::Filter::Rule::Glob->new(
@@ -28,5 +29,14 @@ ok !$set->evaluate(Path::Class::file('foo.bar'));
 
 ok !$set->evaluate(Path::Class::file('foo.txt', 'foo.bar'));
 ok $set->evaluate(Path::Class::file('foo.txt', 'foo.txt'));
+
+my $junk = Path::Filter::Rule::Set->new(
+    rules => [Path::Filter::Rule::BackupFiles::],
+);
+
+ok $junk, 'creating rule with classname is ok';
+
+ok $junk->evaluate(Path::Class::file('foo.doc~'));
+ok !$junk->evaluate(Path::Class::file('~', 'foo'));
 
 done_testing;
