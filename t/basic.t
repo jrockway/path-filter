@@ -20,7 +20,7 @@ ok !$filter->filter('.#thing#/foo');
 ok !$filter->filter('new.txt');
 
 my $rooted = Path::Filter->new(
-    rules => [qw/VersionControl::Git/],
+    rules => [qw/VersionControl/],
     root  => '/foo/',
 );
 
@@ -29,5 +29,7 @@ ok $rooted->filter('.git/config');
 ok $rooted->filter('/foo/.git/refs/heads/');
 ok !$rooted->filter('/foo/bar/.git/config');
 ok !$rooted->filter('/foo/.gitignore');
+
+ok $rooted->filter('/foo/bar/.svn/baz');
 
 done_testing;
