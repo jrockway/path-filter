@@ -34,6 +34,7 @@ sub files {
     my $self; $self = sub {
         my $next = $iter->();
         return unless defined $next;
+        $next = Path::Class::file($next);
         return $self->() if($filter->filter($next));
         return $next;
     };
