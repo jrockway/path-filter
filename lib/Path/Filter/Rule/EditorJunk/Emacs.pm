@@ -9,11 +9,11 @@ class Path::Filter::Rule::EditorJunk::Emacs
       }
 
       method as_regexp {
-          return qr/[.]#.+#$/;
+          return qr/[.]#.+#?$/;
       }
 
       method as_glob {
-          return '.#*#';
+          return '.#*';
       }
 
       method evaluate(Path $path){
