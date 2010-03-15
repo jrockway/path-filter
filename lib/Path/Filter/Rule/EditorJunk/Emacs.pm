@@ -9,7 +9,11 @@ class Path::Filter::Rule::EditorJunk::Emacs
       }
 
       method as_regexp {
-          return qr/[.]#.+#?$/;
+          # maybe this should be a few regexes, here are the cases:
+          # base/#File#
+          # base/.#File
+          # base/.#File#
+          return qr/[.]?#.+#?$/;
       }
 
       method as_glob {
