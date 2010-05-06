@@ -23,14 +23,14 @@ sub files {
         @files = ($first, @rest);
     }
 
-    my $rules = delete $args{filters} || [qw/Backup VersionControl EditorJunk/];
-    my $filter = Path::Filter->new(
-        rules => $rules,
+    my $filter = delete $args{filter} || Path::Filter->new(
+        rules => (delete $args{filters} || [qw/Backup VersionControl EditorJunk/]),
         (@files == 1) ? ( root => $files[0] ) : (),
     );
 
     my $iter = File::Next::files(\%args, @files);
 
+    no warnings 'recursion';
     my $self; $self = sub {
         my $next = $iter->();
         return unless defined $next;
